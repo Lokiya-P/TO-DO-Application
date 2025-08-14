@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple To-Do List</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:40px; }
+    .app { max-width:420px; margin:auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.08); }
+    h1 { margin:0 0 16px; font-size:24px; }
+    .row { display:flex; gap:8px; }
+    input[type="text"] { flex:1; padding:10px; border:1px solid #ccc; border-radius:6px; }
+    button { padding:10px 14px; border:none; border-radius:6px; cursor:pointer; background:#28a745; color:#fff; }
+    button:hover { background:#218838; }
+    ul { list-style:none; padding:0; margin:16px 0 0; }
+    li { display:flex; justify-content:space-between; align-items:center; gap:10px;
+         background:#f1f1f1; margin-bottom:8px; padding:10px; border-radius:6px; }
+    .delete { background:#e55353; }
+    .delete:hover { background:#c93d3d; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>My To-Do List</h1>
+    <div class="row">
+      <input id="taskInput" type="text" placeholder="Add a new task..." />
+      <button id="addBtn">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (!text) { taskInput.focus(); return; }
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${text}</span>
+        <button class="delete">Delete</button>
+      `;
+
+      // delete button handler
+      li.querySelector('.delete').addEventListener('click', () => li.remove());
+
+      taskList.appendChild(li);
+      taskInput.value = '';
+      taskInput.focus();
+    }
+
+    // Add on button click
+    addBtn.addEventListener('click', addTask);
+
+    // Add on Enter key
+    taskInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addTask();
+    });
+  </script>
+</body>
+</html>
